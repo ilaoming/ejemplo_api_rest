@@ -71,12 +71,78 @@ app.post('/api/producto/', function (req, res) {
   
       const query = `INSERT INTO producto (prod_nom) VALUES (${connection.escape(req.body.prod_nom)});`
       connection.query(query, function (error, filas, campos) {
-        res.json({data:filas.insertId})
+        const last_id = filas.insertId
+        const queryConsulta = `SELECT * FROM producto WHERE prod_id=${connection.escape(last_id)}`
+        connection.query(queryConsulta, function (error, filas, campos) {
+          res.json({data: filas[0]})
+        })
       })
       connection.release()
     })
   
   }) 
+
+
+  app.put('/api/producto/:prod_id', function (req, res) {
+
+    pool.getConnection(function(err, connection) {
+  
+      const query = `SELECT * FROM producto WHERE prod_id=${connection.escape(req.params.prod_id)}`
+      connection.query(query, function (error, filas, campos) {
+  
+        if(filas.length > 0){
+          const queryUpdate = `UPDATE producto SET prod_desc=${connection.escape(req.body.prod_desc)} WHERE prod_id=${req.params.prod_id}`
+          connection.query(queryUpdate, function (error, filas, campos) {
+  
+            const queryConsulta = `SELECT * FROM producto WHERE prod_id=${connection.escape(req.params.prod_id)}`
+            connection.query(queryConsulta, function (error, filas, campos) {
+              res.json({data: filas[0]})
+            })
+  
+          })
+  
+        }
+        else{
+          res.status(404)
+          res.send({errors: [`No se encontro el producto con codigo  : ${req.params.prod_id}`]})
+        }
+  
+      })
+  
+      connection.release()
+  
+    })
+  
+  })
+
+
+  app.delete('/api/producto/:prod_id', function (req, res) {
+
+    pool.getConnection(function(err, connection) {
+  
+      const query = `SELECT * FROM producto WHERE prod_id=${connection.escape(req.params.prod_id)}`
+      connection.query(query, function (error, filas, campos) {
+  
+        if(filas.length > 0){
+          const queryDelete = `DELETE FROM producto WHERE prod_id=${req.params.prod_id}`
+          connection.query(queryDelete, function (error, filas, campos) {
+            res.status(204)
+            res.json()
+            console.log(`Producto Codigo: ${req.params.prod_id} eliminado` );
+          })
+  
+        }
+        else{
+          res.status(404)
+          res.send({errors:[`No se encontro el producto con codigo  : ${req.params.prod_id}`]})
+        }
+  
+      })
+      connection.release()
+  
+    })
+  
+  })
 
 
 
