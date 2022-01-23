@@ -107,7 +107,7 @@ app.get("/api/product/category/:category_id", function (req, res) {
 
     connection.query(query, function (error, filas, campos) {
       if (filas.length > 0) {
-        res.json({ data: filas[0] });
+        res.json({ data: filas});
       } else {
         res.status(404);
         res.send({
