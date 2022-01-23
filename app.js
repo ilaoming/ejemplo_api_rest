@@ -17,14 +17,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/",function (req,res) { 
-  const api_document = [
+  const apiData = [
     ["Return all categories","https://laomingcode-node-mysql.herokuapp.com/api/category"],
     ["Return category by id","https://laomingcode-node-mysql.herokuapp.com/api/category/:id"],
     ["Return all products","https://laomingcode-node-mysql.herokuapp.com/api/product"],
     ["Return product by id","https://laomingcode-node-mysql.herokuapp.com/api/product/:id"],
     ["Return product by category","https://laomingcode-node-mysql.herokuapp.com/api/product/category/:category_id"],
 ]
-  res.send(api_document)
+  res.send(apiData)
  })
 
  app.get("/api/category", function (req, res) {
