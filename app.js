@@ -38,7 +38,7 @@ app.get("/api/category/:id", function (req, res) {
     )}`;
 
     connection.query(query, function (error, filas, campos) {
-      res.json({ data: filas });
+      res.json({ data: filas[0]});
     });
     connection.release();
   });
@@ -53,7 +53,7 @@ app.post("/api/category/", function (req, res) {
 
     connection.query(query, function (error, filas, campos) {
       const last_id = filas.insertId;
-      const queryConsulta = `SELECT * FROM product WHERE id=${connection.escape(
+      const queryConsulta = `SELECT * FROM category WHERE id=${connection.escape(
         last_id
       )}`;
       connection.query(queryConsulta, function (error, filas, campos) {
