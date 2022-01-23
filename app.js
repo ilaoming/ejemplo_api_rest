@@ -151,6 +151,7 @@ app.delete("/api/producto/:prod_id", function (req, res) {
   });
 });
 
-app.listen(8080, function () {
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, function () {
   console.log("Servidor iniciado");
 });
