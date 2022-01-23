@@ -16,6 +16,10 @@ var pool = mysql.createPool({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get("/",function (req,res) { 
+  res.send("Welcome to my Api ")
+ })
+
 app.get("/api/producto", function (req, res) {
   pool.getConnection(function (err, connection) {
     const query = `SELECT * FROM producto`;
