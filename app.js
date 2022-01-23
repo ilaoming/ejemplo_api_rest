@@ -99,7 +99,7 @@ app.get("/api/product/:id", function (req, res) {
   });
 });
 
-app.get("/api/product/:category_id", function (req, res) {
+app.get("/api/product/category/:category_id", function (req, res) {
   pool.getConnection(function (err, connection) {
     const query = `SELECT * FROM product WHERE category_id = ${connection.escape(
       req.params.category_id
