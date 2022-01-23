@@ -5,11 +5,13 @@ const bodyParser = require("body-parser");
 
 var pool = mysql.createPool({
   connectionLimit: 20,
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "prueba_bd",
+  host: "us-cdbr-east-05.cleardb.net",
+  user: "b6175f675c62a8",
+  password: "d1812fb5",
+  database: "heroku_ab3189222e34410",
 });
+
+//mysql://b6175f675c62a8:d1812fb5@us-cdbr-east-05.cleardb.net/heroku_ab3189222e34410?reconnect=true
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
