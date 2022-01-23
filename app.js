@@ -45,7 +45,13 @@ app.get("/api/category/:id", function (req, res) {
     )}`;
 
     connection.query(query, function (error, filas, campos) {
-      res.json({ data: filas[0]});
+      if (filas.length > 0) {
+        res.json({ data: filas[0]});
+      } else {
+        res.send({errors:[
+          `Category not found: ${req.params.id}`
+        ]})
+      }
     });
     connection.release();
   });
@@ -96,7 +102,7 @@ app.get("/api/product/:id", function (req, res) {
       } else {
         res.status(404);
         res.send({
-          erros: [
+          errors: [
             `Product not found  : ${req.params.id}`,
           ],
         });
@@ -118,7 +124,7 @@ app.get("/api/product/category/:category_id", function (req, res) {
       } else {
         res.status(404);
         res.send({
-          erros: [
+          errors: [
             `Category not found  : ${req.params.category_id}`,
           ],
         });
