@@ -165,16 +165,6 @@ app.post("/api/product/", function (req, res) {
       ${connection.escape(req.body.available)},
       ${connection.escape(req.body.category_id)}
       );`;
-
-    connection.query(query, function (error, filas, campos) {
-      const last_id = filas.insertId;
-      const queryConsulta = `SELECT * FROM product WHERE id=${connection.escape(
-        last_id
-      )}`;
-      connection.query(queryConsulta, function (error, filas, campos) {
-        res.json({ data: filas[0] });
-      });
-    });
     connection.release();
   });
 });
