@@ -154,16 +154,16 @@ app.get("/api/product/category/:category_id", function (req, res) {
 });
 
 
-app.post("/api/product/", function (req, res) {
+app.post("/api/product/add", function (req, res) {
 
   pool.getConnection(function (err, connection) {
     const query = `INSERT INTO product (name,description,price,picture,available,category_id) VALUES (
-      ${connection.escape(req.body.name)},
-      ${connection.escape(req.body.description)},
-      ${connection.escape(req.body.price)},
-      ${connection.escape(req.body.picture)},
-      ${connection.escape(req.body.available)},
-      ${connection.escape(req.body.category_id)}
+      ${req.body.name},
+      ${req.body.description},
+      ${req.body.price},
+      ${req.body.picture},
+      ${req.body.available},
+      ${req.body.category_id}
       );`;
       connection.query(query,function (error,filas,campos) { 
         console.log(error);
