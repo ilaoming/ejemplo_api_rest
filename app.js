@@ -157,29 +157,25 @@ app.get("/api/product/category/:category_id", function (req, res) {
 app.post("/api/product/", function (req, res) {
 
   pool.getConnection(function (err, connection) {
-    if (err) {
-      console.log(err);
-    } else {
-      const query = `INSERT INTO product (name,description,price,foto,available,category_id) VALUES (
-        ${connection.escape(req.body.name)},
-        ${connection.escape(req.body.description)},
-        ${connection.escape(req.body.price)},
-        ${connection.escape(req.body.foto)},
-        ${connection.escape(req.body.available)},
-        ${connection.escape(req.body.category_id)}
-        );`;
-  
-      connection.query(query, function (error, filas, campos) {
-        const last_id = filas.insertId;
-        const queryConsulta = `SELECT * FROM product WHERE id=${connection.escape(
-          last_id
-        )}`;
-        connection.query(queryConsulta, function (error, filas, campos) {
-          res.json({ data: filas[0] });
-        });
+    const query = `INSERT INTO product (name,description,price,foto,available,category_id) VALUES (
+      ${connection.escape(req.body.name)},
+      ${connection.escape(req.body.description)},
+      ${connection.escape(req.body.price)},
+      ${connection.escape(req.body.foto)},
+      ${connection.escape(req.body.available)},
+      ${connection.escape(req.body.category_id)}
+      );`;
+
+    connection.query(query, function (error, filas, campos) {
+      const last_id = filas.insertId;
+      const queryConsulta = `SELECT * FROM product WHERE id=${connection.escape(
+        last_id
+      )}`;
+      connection.query(queryConsulta, function (error, filas, campos) {
+        res.json({ data: filas[0] });
       });
-      connection.release();
-    }
+    });
+    connection.release();
   });
 });
 
