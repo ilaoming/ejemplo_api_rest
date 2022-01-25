@@ -166,7 +166,7 @@ app.post("/api/product/add", function (req, res) {
       ${req.body.category_id}
       );`;
       connection.query(query,function (error,filas,campos) { 
-        console.log(error);
+        res.status(200)
        })
     connection.release();
   });
