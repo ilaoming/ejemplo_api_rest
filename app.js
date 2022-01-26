@@ -182,10 +182,20 @@ app.post("/add/product/", function (req, res) {
       ${connection.escape(available)},
       ${connection.escape(category_id)}
     )`
+    if (name == "" || description == "" || price == "" || category_id == "") {
+      res.status(404);
+        res.send({
+          errors: [
+            `There are empty fields`,
+          ],
+        });
+    } else {
       connection.query(query,function (error,filas,campos) { 
         res.status(200)
         res.send("Success")
        })
+    }
+
     connection.release();
   });
 });
