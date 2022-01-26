@@ -4,7 +4,7 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 
 var pool = mysql.createPool({
-  connectionLimit: 20,
+  connectionLimit: 100,
   host: "us-cdbr-east-05.cleardb.net",
   user: "b6175f675c62a8",
   password: "d1812fb5",
@@ -154,23 +154,42 @@ app.get("/api/product/category/:category_id", function (req, res) {
 });
 
 
-app.post("/api/product/add", function (req, res) {
+app.post("/add/product/", function (req, res) {
 
   pool.getConnection(function (err, connection) {
-    const query = `INSERT INTO product (name,description,price,picture,available,category_id) VALUES (
-      ${req.body.name},
-      ${req.body.description},
-      ${req.body.price},
-      ${req.body.picture},
-      ${req.body.available},
-      ${req.body.category_id}
-      );`;
+    const name = req.body.name
+    const description = req.body.description
+    const price = req.body.price
+    const picture = req.body.picture
+    const available = req.body.available
+    const category_id = req.body.category_id
+    const query = `
+    INSERT INTO
+    product
+    (
+      name,
+      description,
+      price,
+      picture,
+      available,
+      category_id
+    ) VALUES 
+    (
+      ${connection.escape(name)},
+      ${connection.escape(description)},
+      ${connection.escape(price)},
+      ${connection.escape(picture)},
+      ${connection.escape(available)},
+      ${connection.escape(category_id)}
+    )`
       connection.query(query,function (error,filas,campos) { 
         res.status(200)
        })
     connection.release();
   });
 });
+
+
 
 app.put("/api/product/:id", function (req, res) {
   pool.getConnection(function (err, connection) {
