@@ -184,6 +184,7 @@ app.post("/add/product/", function (req, res) {
     )`
       connection.query(query,function (error,filas,campos) { 
         res.status(200)
+        res.send("Success")
        })
     connection.release();
   });
