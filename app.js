@@ -183,16 +183,16 @@ app.post("/add/product/", function (req, res) {
       ${connection.escape(category_id)}
     )`
     if (name == "" || description == "" || price == "" || category_id == "") {
-      res.status(404);
+      let URL = window.location;
         res.send({
           errors: [
-            `There are empty fields`,
+            `There are empty fields ${URL}`,
           ],
         });
     } else {
       connection.query(query,function (error,filas,campos) { 
         res.status(200)
-        res.send("Success")
+       //res.redirect(URL)
        })
     }
 
