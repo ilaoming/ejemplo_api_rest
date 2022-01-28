@@ -157,6 +157,7 @@ app.get("/api/product/category/:category_id", function (req, res) {
 app.post("/add/product/", function (req, res) {
 
   pool.getConnection(function (err, connection) {
+    const URL_ = req.body.url
     const name = req.body.name
     const description = req.body.description
     const price = req.body.price
@@ -191,7 +192,7 @@ app.post("/add/product/", function (req, res) {
     } else {
       connection.query(query,function (error,filas,campos) { 
         res.status(200)
-        res.send("Success")
+        res.redirect(URL_)
        })
     }
 
