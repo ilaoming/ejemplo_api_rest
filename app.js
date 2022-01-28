@@ -183,7 +183,7 @@ app.post("/add/product/", function (req, res) {
       ${connection.escape(available)},
       ${connection.escape(category_id)}
     )`
-    if (name == "" || description == "" || price == "" || category_id == "") {
+    if (name == "" || description == "" || price == "" || category_id == "" || picture == "") {
         res.send({
           errors: [
             `There are empty fields`,
