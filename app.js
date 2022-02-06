@@ -11,16 +11,18 @@ var pool = mysql.createPool({
   database: "heroku_ab3189222e34410",
 });
 
-var allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+var allowCrossDomain = function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Content-Length, X-Requested-With"
+  );
 
   // intercept OPTIONS method
-  if ('OPTIONS' == req.method) {
+  if ("OPTIONS" == req.method) {
     res.send(200);
-  }
-  else {
+  } else {
     next();
   }
 };
@@ -30,23 +32,46 @@ var allowCrossDomain = function(req, res, next) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(allowCrossDomain)
+app.use(allowCrossDomain);
 
-app.get("/",function (req,res) { 
+app.get("/", function (req, res) {
   const apiData = [
-    ["Return all categories","https://laomingcode-node-mysql.herokuapp.com/api/category"],
-    ["Return category by id","https://laomingcode-node-mysql.herokuapp.com/api/category/:id","Example: https://laomingcode-node-mysql.herokuapp.com/api/category/1"],
-    ["Return all products","https://laomingcode-node-mysql.herokuapp.com/api/product"],
-    ["Return product by id","https://laomingcode-node-mysql.herokuapp.com/api/product/:id","Example: https://laomingcode-node-mysql.herokuapp.com/api/product/1"],
-    ["Return product by category","https://laomingcode-node-mysql.herokuapp.com/api/product/category/:category_id","Example: https://laomingcode-node-mysql.herokuapp.com/api/product/category/1"],
-    ["Post category *required 'name' in the body","https://laomingcode-node-mysql.herokuapp.com/api/category/"],
-    ["Post product *required 'name,description,price,foto,available,category_id' in the body","https://laomingcode-node-mysql.herokuapp.com/api/product/"]
+    [
+      "Return all categories",
+      "https://laomingcode-node-mysql.herokuapp.com/api/category",
+    ],
+    [
+      "Return category by id",
+      "https://laomingcode-node-mysql.herokuapp.com/api/category/:id",
+      "Example: https://laomingcode-node-mysql.herokuapp.com/api/category/1",
+    ],
+    [
+      "Return all products",
+      "https://laomingcode-node-mysql.herokuapp.com/api/product",
+    ],
+    [
+      "Return product by id",
+      "https://laomingcode-node-mysql.herokuapp.com/api/product/:id",
+      "Example: https://laomingcode-node-mysql.herokuapp.com/api/product/1",
+    ],
+    [
+      "Return product by category",
+      "https://laomingcode-node-mysql.herokuapp.com/api/product/category/:category_id",
+      "Example: https://laomingcode-node-mysql.herokuapp.com/api/product/category/1",
+    ],
+    [
+      "Post category *required 'name' in the body",
+      "https://laomingcode-node-mysql.herokuapp.com/api/category/",
+    ],
+    [
+      "Post product *required 'name,description,price,foto,available,category_id' in the body",
+      "https://laomingcode-node-mysql.herokuapp.com/api/product/",
+    ],
+  ];
+  res.send(apiData);
+});
 
-]
-  res.send(apiData)
- })
-
- app.get("/api/category", function (req, res) {
+app.get("/api/category", function (req, res) {
   pool.getConnection(function (err, connection) {
     const query = `SELECT * FROM category`;
 
@@ -65,11 +90,9 @@ app.get("/api/category/:id", function (req, res) {
 
     connection.query(query, function (error, filas, campos) {
       if (filas.length > 0) {
-        res.json({ data: filas[0]});
+        res.json({ data: filas[0] });
       } else {
-        res.send({errors:[
-          `Category not found: ${req.params.id}`
-        ]})
+        res.send({ errors: [`Category not found: ${req.params.id}`] });
       }
     });
     connection.release();
@@ -77,7 +100,6 @@ app.get("/api/category/:id", function (req, res) {
 });
 
 app.post("/api/category/", function (req, res) {
-
   pool.getConnection(function (err, connection) {
     const query = `INSERT INTO category (name) VALUES (
       ${connection.escape(req.body.name)},
@@ -95,8 +117,6 @@ app.post("/api/category/", function (req, res) {
     connection.release();
   });
 });
-
-
 
 app.get("/api/product", function (req, res) {
   pool.getConnection(function (err, connection) {
@@ -121,9 +141,7 @@ app.get("/api/product/:id", function (req, res) {
       } else {
         res.status(404);
         res.send({
-          errors: [
-            `Product not found  : ${req.params.id}`,
-          ],
+          errors: [`Product not found  : ${req.params.id}`],
         });
       }
     });
@@ -139,13 +157,11 @@ app.get("/api/product/category/:category_id", function (req, res) {
 
     connection.query(query, function (error, filas, campos) {
       if (filas.length > 0) {
-        res.json({ data: filas});
+        res.json({ data: filas });
       } else {
         res.status(404);
         res.send({
-          errors: [
-            `Category not found  : ${req.params.category_id}`,
-          ],
+          errors: [`Category not found  : ${req.params.category_id}`],
         });
       }
     });
@@ -153,17 +169,15 @@ app.get("/api/product/category/:category_id", function (req, res) {
   });
 });
 
-
 app.post("/add/product/", function (req, res) {
-
   pool.getConnection(function (err, connection) {
-    const URL_ = req.body.url
-    const name = req.body.name
-    const description = req.body.description
-    const price = req.body.price
-    const picture = req.body.picture
-    const available = req.body.available
-    const category_id = req.body.category_id
+    const URL_ = req.body.url;
+    const name = req.body.name;
+    const description = req.body.description;
+    const price = req.body.price;
+    const picture = req.body.picture;
+    const available = req.body.available;
+    const category_id = req.body.category_id;
     const query = `
     INSERT INTO
     product
@@ -182,25 +196,27 @@ app.post("/add/product/", function (req, res) {
       ${connection.escape(picture)},
       ${connection.escape(available)},
       ${connection.escape(category_id)}
-    )`
-    if (name == "" || description == "" || price == "" || category_id == "" || picture == "") {
-        res.send({
-          errors: [
-            `There are empty fields`,
-          ],
-        });
+    )`;
+    if (
+      name == "" ||
+      description == "" ||
+      price == "" ||
+      category_id == "" ||
+      picture == ""
+    ) {
+      res.send({
+        errors: [`There are empty fields`],
+      });
     } else {
-      connection.query(query,function (error,filas,campos) { 
-        res.status(200)
-        res.redirect(URL_)
-       })
+      connection.query(query, function (error, filas, campos) {
+        res.status(200);
+        res.redirect(URL_);
+      });
     }
 
     connection.release();
   });
 });
-
-
 
 app.put("/api/product/:id", function (req, res) {
   pool.getConnection(function (err, connection) {
@@ -209,7 +225,18 @@ app.put("/api/product/:id", function (req, res) {
     )}`;
     connection.query(query, function (error, filas, campos) {
       if (filas.length > 0) {
-        const queryUpdate = `UPDATE product SET 
+        if (
+          name == "" ||
+          description == "" ||
+          price == "" ||
+          category_id == "" ||
+          picture == ""
+        ) {
+          res.send({
+            errors: [`There are empty fields`],
+          });
+        } else {
+          const queryUpdate = `UPDATE product SET 
         name=${connection.escape(req.body.name)},
         description=${connection.escape(req.body.description)},
         price=${connection.escape(req.body.price)},
@@ -217,20 +244,12 @@ app.put("/api/product/:id", function (req, res) {
         available=${connection.escape(req.body.available)},
         category_id=${connection.escape(req.body.category_id)},
         WHERE id=${req.params.id}`;
-        connection.query(queryUpdate, function (error, filas, campos) {
-          const queryConsulta = `SELECT * FROM product WHERE id=${connection.escape(
-            req.params.id
-          )}`;
-          connection.query(queryConsulta, function (error, filas, campos) {
-            res.json({ data: filas[0] });
-          });
-        });
+          connection.query(queryUpdate, function (error, filas, campos) {});
+        }
       } else {
         res.status(404);
         res.send({
-          errors: [
-            `Product not found  : ${req.params.id}`,
-          ],
+          errors: [`Product not found  : ${req.params.id}`],
         });
       }
     });
@@ -260,9 +279,7 @@ app.put("/api/product/available/:id", function (req, res) {
       } else {
         res.status(404);
         res.send({
-          errors: [
-            `Product not found  : ${req.params.id}`,
-          ],
+          errors: [`Product not found  : ${req.params.id}`],
         });
       }
     });
@@ -287,9 +304,7 @@ app.delete("/api/product/:id", function (req, res) {
       } else {
         res.status(404);
         res.send({
-          errors: [
-            `Product not found  : ${req.params.id}`,
-          ],
+          errors: [`Product not found  : ${req.params.id}`],
         });
       }
     });
