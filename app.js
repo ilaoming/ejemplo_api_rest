@@ -218,41 +218,45 @@ app.post("/add/product/", function (req, res) {
   });
 });
 
-app.put("/api/product/:id", function (req, res) {
+app.put("/apiV1/product/:id", function (req, res) {
+  const name = req.body.name;
+  const description = req.body.description;
+  const price = req.body.price;
+  const picture = req.body.picture;
+  const available = req.body.available;
+  const category_id = req.body.category_id;
   pool.getConnection(function (err, connection) {
-    const query = `SELECT * FROM product WHERE id=${connection.escape(
-      req.params.id
-    )}`;
-    connection.query(query, function (error, filas, campos) {
-      if (filas.length > 0) {
-        if (
-          name == "" ||
-          description == "" ||
-          price == "" ||
-          category_id == "" ||
-          picture == ""
-        ) {
-          res.send({
-            errors: [`There are empty fields`],
-          });
-        } else {
-          const queryUpdate = `UPDATE product SET 
+    const queryUpdate = `UPDATE product SET 
         name=${connection.escape(req.body.name)},
         description=${connection.escape(req.body.description)},
         price=${connection.escape(req.body.price)},
-        foto=${connection.escape(req.body.foto)},
+        picture=${connection.escape(req.body.picture)},
         available=${connection.escape(req.body.available)},
         category_id=${connection.escape(req.body.category_id)},
         WHERE id=${req.params.id}`;
-          connection.query(queryUpdate, function (error, filas, campos) {});
-        }
-      } else {
-        res.status(404);
+
+    if (filas.length > 0) {
+      if (
+        name == "" ||
+        description == "" ||
+        price == "" ||
+        category_id == "" ||
+        picture == ""
+      ) {
         res.send({
-          errors: [`Product not found  : ${req.params.id}`],
+          errors: [`There are empty fields`],
+        });
+      } else {
+        connection.query(queryUpdate, function (error, filas, campos) {
+
         });
       }
-    });
+    } else {
+      res.status(404);
+      res.send({
+        errors: [`Product not found  : ${req.params.id}`],
+      });
+    }
 
     connection.release();
   });
