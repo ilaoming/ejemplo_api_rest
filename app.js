@@ -235,7 +235,7 @@ app.put("/apiV1/product/:id", function (req, res) {
         category_id=${connection.escape(req.body.category_id)},
         WHERE id=${req.params.id}`;
 
-    if (filas.length > 0) {
+ 
       if (
         name == "" ||
         description == "" ||
@@ -248,15 +248,10 @@ app.put("/apiV1/product/:id", function (req, res) {
         });
       } else {
         connection.query(queryUpdate, function (error, filas, campos) {
-
+          res.send('Update success')
         });
       }
-    } else {
-      res.status(404);
-      res.send({
-        errors: [`Product not found  : ${req.params.id}`],
-      });
-    }
+
 
     connection.release();
   });
