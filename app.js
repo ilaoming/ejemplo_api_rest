@@ -220,16 +220,15 @@ app.put("/apiV1/product/:id", function (req, res) {
   const description = req.body.description;
   const price = req.body.price;
   const picture = req.body.picture;
-  const available = req.body.available;
   const category_id = req.body.category_id;
+
   pool.getConnection(function (err, connection) {
     const queryUpdate = `UPDATE product SET 
         name=${connection.escape(req.body.name)},
         description=${connection.escape(req.body.description)},
         price=${connection.escape(req.body.price)},
         picture=${connection.escape(req.body.picture)},
-        available=${connection.escape(req.body.available)},
-        category_id=${connection.escape(req.body.category_id)},
+        category_id=${connection.escape(req.body.category_id)}
         WHERE id=${req.params.id}`;
 
  
@@ -245,6 +244,7 @@ app.put("/apiV1/product/:id", function (req, res) {
         });
       } else {
         connection.query(queryUpdate, function (error, filas, campos) {
+          res.status(200)
           res.send('Update success')
         });
       }
