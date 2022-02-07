@@ -12,23 +12,21 @@ var pool = mysql.createPool({
   database: "heroku_ab3189222e34410",
 });
 
-// var allowCrossDomain = function (req, res, next) {
-//   res.header("Allow","GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS")
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-//   res.header("Access-Control-Allow-Headers","*");
-
-//   // intercept OPTIONS method
-//   if ("OPTIONS" == req.method) {
-//     res.send(200);
-//   } else {
-//     next();
+let whitelist = ['http://127.0.0.1:5500']
+// let corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
 //   }
-// };
+// }
+// Example app.use(cors({origin: whitelist}))
 
 //mysql://b6175f675c62a8:d1812fb5@us-cdbr-east-05.cleardb.net/heroku_ab3189222e34410?reconnect=true
 
-app.use(cors())
+app.use(cors({origin: whitelist}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
