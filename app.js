@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
+const cors = require('cors')
 
 var pool = mysql.createPool({
   connectionLimit: 100,
@@ -11,22 +12,23 @@ var pool = mysql.createPool({
   database: "heroku_ab3189222e34410",
 });
 
-var allowCrossDomain = function (req, res, next) {
-  res.header("Allow","GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS")
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers","*");
+// var allowCrossDomain = function (req, res, next) {
+//   res.header("Allow","GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS")
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+//   res.header("Access-Control-Allow-Headers","*");
 
-  // intercept OPTIONS method
-  if ("OPTIONS" == req.method) {
-    res.send(200);
-  } else {
-    next();
-  }
-};
+//   // intercept OPTIONS method
+//   if ("OPTIONS" == req.method) {
+//     res.send(200);
+//   } else {
+//     next();
+//   }
+// };
 
 //mysql://b6175f675c62a8:d1812fb5@us-cdbr-east-05.cleardb.net/heroku_ab3189222e34410?reconnect=true
 
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
