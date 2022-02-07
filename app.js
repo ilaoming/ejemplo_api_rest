@@ -12,6 +12,7 @@ var pool = mysql.createPool({
 });
 
 var allowCrossDomain = function (req, res, next) {
+  res.header("Allow","GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS")
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
   res.header("Access-Control-Allow-Headers","*");
