@@ -32,7 +32,7 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(allowCrossDomain);
+//app.use(allowCrossDomain);
 
 app.get("/", function (req, res) {
   const apiData = [
