@@ -221,17 +221,16 @@ app.put("/apiV1/product/:id", function (req, res) {
   const price = req.body.price;
   const picture = req.body.picture;
   const category_id = req.body.category_id;
+  console.log(req.params.id);
 
   pool.getConnection(function (err, connection) {
     const queryUpdate = `UPDATE product SET 
-        name=${connection.escape(req.body.name)},
-        description=${connection.escape(req.body.description)},
-        price=${connection.escape(req.body.price)},
-        picture=${connection.escape(req.body.picture)},
-        category_id=${connection.escape(req.body.category_id)}
+        name=${connection.escape(name)},
+        description=${connection.escape(description)},
+        price=${connection.escape(price)},
+        picture=${connection.escape(picture)},
+        category_id=${connection.escape(category_id)}
         WHERE id=${req.params.id}`;
-
- 
       if (
         name == "" ||
         description == "" ||
