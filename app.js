@@ -26,7 +26,7 @@ let whitelist = ['*']
 
 //mysql://b6175f675c62a8:d1812fb5@us-cdbr-east-05.cleardb.net/heroku_ab3189222e34410?reconnect=true
 
-app.use(cors({origin: whitelist}))
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
