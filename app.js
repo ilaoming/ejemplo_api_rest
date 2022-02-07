@@ -12,7 +12,7 @@ var pool = mysql.createPool({
   database: "heroku_ab3189222e34410",
 });
 
-let whitelist = ['http://127.0.0.1:5500']
+let whitelist = ['*']
 // let corsOptions = {
 //   origin: function (origin, callback) {
 //     if (whitelist.indexOf(origin) !== -1) {
