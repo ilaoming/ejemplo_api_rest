@@ -5,9 +5,14 @@ const bodyParser = require('body-parser');
 const api_info = require('./routes/api_info')
 const category = require('./routes/category')
 const product = require('./routes/product')
-const allow_cross_domain = require('./allowCrossDomain')
-
+const cors = require('cors')
 const PORT = process.env.PORT || 3000;
+
+
+app.use(cors({
+  origin: '*',
+  credentials: true
+}))
 
 
 //Home
@@ -18,11 +23,12 @@ app.get("/", function (req, res) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(allow_cross_domain)
+
 app.use(category)
 app.use(product)
 
 
+//Run App
 app.listen(PORT, () => {
-  console.log(`Example app listening on PORT ${PORT}`);
+  console.log(`App listening on PORT ${PORT}`);
 })
