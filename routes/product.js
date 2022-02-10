@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../mysql');
 const cors = require('cors')
-app.use(cors());
-app.options('*', cors());
+router.use(cors());
+router.options('*', cors());
 
 //GET methods
 // -------------------------------------------------------------------------------------------------------------------------------------
