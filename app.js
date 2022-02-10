@@ -9,10 +9,8 @@ const cors = require('cors')
 const PORT = process.env.PORT || 3000;
 
 
-app.use(cors({
-  origin:'*',
-  credentials: true
-}))
+app.use(cors());
+app.options('*', cors());
 
 
 //Home
