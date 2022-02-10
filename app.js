@@ -5,12 +5,9 @@ const bodyParser = require('body-parser');
 const api_info = require('./routes/api_info')
 const category = require('./routes/category')
 const product = require('./routes/product')
-const cors = require('cors')
+const allow_cross_domain = require('./allow_cross_domain')
 const PORT = process.env.PORT || 3000;
 
-
-app.use(cors());
-app.options('*', cors());
 
 
 //Home
@@ -21,7 +18,7 @@ app.get("/", function (req, res) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+app.use(allow_cross_domain)
 app.use(category)
 app.use(product)
 
