@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../mysql');
+const cors = require('cors')
+app.use(cors());
+app.options('*', cors());
 
 //GET methods
 // -------------------------------------------------------------------------------------------------------------------------------------
@@ -128,7 +131,15 @@ router.get('/api/product/category/:category_id',(req,res)=>{
 // -------------------------------------------------------------------------------------------------------------------------------------
 
 // POST Add new product
-router.post('/add/product/',(req,res)=>{
+const issue2options = {
+    origin: true,
+    methods: ["POST"],
+    credentials: true,
+    maxAge: 3600
+  };
+
+router.options("/add/product/", cors(issue2options));
+router.post('/add/product/',cors(issue2options),(req,res)=>{
     pool.getConnection(function(err,connection){
 
         const URL_ = req.body.url;
