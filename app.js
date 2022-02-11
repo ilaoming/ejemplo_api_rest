@@ -7,14 +7,15 @@ const api_info = require('./routes/api_info')
 const category = require('./routes/category')
 const product = require('./routes/product')
 const PORT = process.env.PORT || 3000;
-const corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200,
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
-}
+
+// const corsOptions = {
+//   origin: '*',
+//   optionsSuccessStatus: 200,
+//   methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+// }
 
 //headers 
-app.use(cors(corsOptions))
+app.use(cors())
 
 //Home
 app.get("/", function (req, res) {
