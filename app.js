@@ -1,27 +1,20 @@
 require('dotenv').config()
 const express = require('express');
 const app = express();
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const api_info = require('./routes/api_info')
 const category = require('./routes/category')
 const product = require('./routes/product')
 const PORT = process.env.PORT || 3000;
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200,
+  methods: 'GET, PUT, POST, DELETE, OPTIONS'
+}
 
 //headers 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-
-  // authorized headers for preflight requests
-  // https://developer.mozilla.org/en-US/docs/Glossary/preflight_request
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-
-  app.options('*', (req, res) => {
-      // allowed XHR methods  
-      res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
-      res.send();
-  });
-});
+app.use(cors(corsOptions))
 
 //Home
 app.get("/", function (req, res) {
