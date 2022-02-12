@@ -8,14 +8,34 @@ const category = require('./routes/category')
 const product = require('./routes/product')
 const PORT = process.env.PORT || 3000;
 
-// const corsOptions = {
-//   origin: '*',
-//   optionsSuccessStatus: 200,
-//   methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
-// }
+app.all('*', function(req, res,next) {
+  /**
+   * Response settings
+   * @type {Object}
+   */
+  let responseSettings = {
+      "AccessControlAllowOrigin": req.headers.origin,
+      "AccessControlAllowHeaders": "Content-Type,X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,  Date, X-Api-Version, X-File-Name",
+      "AccessControlAllowMethods": "POST, GET, PUT, DELETE, OPTIONS",
+      "AccessControlAllowCredentials": true
+  };
 
-//headers 
-app.use(cors())
+  /**
+   * Headers
+   */
+  res.header("Access-Control-Allow-Credentials", responseSettings.AccessControlAllowCredentials);
+  res.header("Access-Control-Allow-Origin",  responseSettings.AccessControlAllowOrigin);
+  res.header("Access-Control-Allow-Headers", (req.headers['access-control-request-headers']) ? req.headers['access-control-request-headers'] : "x-requested-with");
+  res.header("Access-Control-Allow-Methods", (req.headers['access-control-request-method']) ? req.headers['access-control-request-method'] : responseSettings.AccessControlAllowMethods);
+
+  if ('OPTIONS' == req.method) {
+      res.send(200);
+  }
+  else {
+      next();
+  }
+
+});
 
 //Home
 app.get("/", function (req, res) {
